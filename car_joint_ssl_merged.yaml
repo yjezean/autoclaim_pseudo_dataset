@@ -1,0 +1,46 @@
+# Joint SSL Dataset Configuration
+# Combines car parts (merged) and car damage datasets with pseudo-labels
+# Total: 19 classes (13 parts + 6 damage)
+
+path: unified_joint_ssl_merged # dataset root
+
+# Training: Combine both domains
+train:
+  - car_part/images/train
+  - car_damage/images/train
+
+# Validation: Combine both domains
+val:
+  - car_part/images/val
+  - car_damage/images/val
+
+# Test: Combine both domains
+test:
+  - car_part/images/test
+  - car_damage/images/test
+
+# Class names: 19 classes total
+# Parts: 0-12 (13 classes, merged taxonomy)
+# Damage: 13-18 (6 classes)
+names:
+  # Parts (merged taxonomy)
+  0: back_bumper
+  1: back_door
+  2: back_glass
+  3: back_light
+  4: front_bumper
+  5: front_door
+  6: front_glass
+  7: front_light
+  8: hood
+  9: mirror
+  10: object
+  11: trunk
+  12: wheel
+  # Damage
+  13: dent
+  14: scratch
+  15: crack
+  16: glass_shatter
+  17: lamp_broken
+  18: tire_flat

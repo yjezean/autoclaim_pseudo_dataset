@@ -1,0 +1,97 @@
+# YOLO11 Training Configuration for Joint Student Model
+# Trains on combined pseudo-labelled dataset (19 classes: 13 parts + 6 damage)
+
+# Model
+model: yolo11s-seg.pt # Start with small, can upgrade to medium if needed
+task: segment
+mode: train
+
+# Dataset
+data: car_joint_ssl_merged.yaml
+epochs: 150
+patience: 50 # Early stopping patience
+
+# Training parameters
+batch: 16
+imgsz: 640
+workers: 8
+device: null # Auto-detect (use GPU if available)
+
+# Multiscale training - helps with both small parts and small damage
+multi_scale: 0.4 # Scale variation factor
+# Image sizes will vary: 640 * (1 ± 0.4) = 384 to 896 pixels
+
+# Augmentation
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4
+degrees: 0.0 # Keep 0 - car orientation matters
+translate: 0.1
+scale: 0.5
+shear: 0.0
+perspective: 0.0
+flipud: 0.0
+fliplr: 0.5 # Horizontal flip OK
+mosaic: 1.0
+mixup: 0.1 # Helps with background confusion
+cutmix: 0.0
+copy_paste: 0.0
+auto_augment: randaugment
+erasing: 0.4
+
+# Learning rate
+lr0: 0.01
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+
+# Loss weights
+box: 7.5
+cls: 0.5
+dfl: 1.5
+pose: 12.0
+kobj: 1.0
+rle: 1.0
+
+# Segmentation specific
+overlap_mask: true
+mask_ratio: 4
+retina_masks: false
+
+# Optimization
+optimizer: auto
+amp: true
+compile: false
+
+# Validation
+val: true
+split: val
+save_json: false
+conf: null
+iou: 0.7
+max_det: 300
+
+# Saving
+save: true
+save_period: -1
+project: runs_joint
+name: yolo11_joint_ssl_v1
+exist_ok: false
+
+# Other
+verbose: true
+seed: 0
+deterministic: true
+single_cls: false
+rect: false
+cos_lr: false
+close_mosaic: 10
+resume: false
+fraction: 1.0
+profile: false
+freeze: null
+dropout: 0.0
+cache: false
